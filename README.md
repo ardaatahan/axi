@@ -165,6 +165,10 @@ pnpm --dir bench-github run bench -- report
 
 Published results (425 runs): [`bench-github/published-results/STUDY.md`](bench-github/published-results/STUDY.md)
 
+## Contributing
+
+Contributions targeting `main` must be submitted through the [contributor workflow](CONTRIBUTING.md), which uses `no-mistakes` and guards release-please-generated files from hand edits.
+
 ## Links
 
 - [Website](https://axi.md)

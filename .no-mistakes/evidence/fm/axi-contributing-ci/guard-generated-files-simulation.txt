@@ -9,6 +9,7 @@ Files changed:
 .no-mistakes/evidence/fm/axi-contributing-ci/no-mistakes-required-simulation.txt
 CONTRIBUTING.md
 README.md
+docs/index.html
 No release-please-generated files modified. OK.
 exit=0
 
