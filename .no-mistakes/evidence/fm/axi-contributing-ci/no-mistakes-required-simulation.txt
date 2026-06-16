@@ -2,7 +2,7 @@
 Workflow: .github/workflows/no-mistakes-required.yml
 
 ## human PR with no-mistakes signature passes
-Found no-mistakes signature in PR #101 body.
+Found no-mistakes signature in PR #123 body.
 exit=0
 
 ## human PR without no-mistakes signature fails
