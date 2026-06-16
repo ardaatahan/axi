@@ -106,7 +106,7 @@ AXIs built and maintained by the community:
 | [`specops`](https://github.com/JarvusInnovations/specops)          | Jarvus Innovations | Spec-driven dev | Spec-driven development for agents - and a demo of shipping an AXI embedded in a skill, not a standalone npm executable. |
 | [`gitsheets-axi`](https://github.com/JarvusInnovations/gitsheets/tree/main/packages/gitsheets-axi) | Jarvus Innovations | Git-backed data | Read and mutate git-backed record sheets over the shell - TOON output, idempotent commits. |
 
-Built an AXI? [Open a PR](https://github.com/kunchenguid/axi/pulls) to add it to this list.
+Built an AXI? Follow the [contributor workflow](CONTRIBUTING.md) to add it to this list.
 
 ## Build Your Own AXI
 
