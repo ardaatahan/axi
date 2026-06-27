@@ -64,8 +64,8 @@ How it works:
 
 1. Land a conventional-commit change on `main` that touches `packages/axi-sdk-js/**`; under the current pre-1.0 config in `release-please-config.json`, `feat:` and `fix:` commits both bump patch versions (for example `0.1.7` -> `0.1.8`), while breaking changes bump minor versions.
 2. The `axi-sdk-js-release-please` workflow opens or updates a release PR titled `chore(main): release axi-sdk-js <version>`.
-   That PR is the only place the version in `packages/axi-sdk-js/package.json`, `packages/axi-sdk-js/CHANGELOG.md`, and `.release-please-manifest.json` may change.
-   Never hand-edit those files; the `Guard generated files` check fails any PR that does.
+   That PR is the only place the version in `packages/axi-sdk-js/package.json` may change, and the only place `packages/axi-sdk-js/CHANGELOG.md` and `.release-please-manifest.json` may change.
+   Never hand-edit those files; the `Guard generated files` check specifically fails PRs that modify the generated changelog or manifest outside release-please.
 3. **Publishing is a maintainer action: merge the open release-please PR.**
    That merge creates the git tag and GitHub release, after which the same workflow runs `format:check`, `lint`, `build`, `test`, then `npm publish --access public --provenance` (OIDC provenance via `id-token: write`, no static npm token in the repo).
 4. Verify with `npm view axi-sdk-js version` and confirm the published `dist/` carries the new code (for example `npm pack axi-sdk-js@<version>` then grep the extracted `dist/`).
