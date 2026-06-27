@@ -62,7 +62,7 @@ Requires Node.js >= 20 and `gh` CLI installed and authenticated.
 
 How it works:
 
-1. Land a conventional-commit change on `main` that touches `packages/axi-sdk-js/**` (a `feat:` or `fix:` bumps the version; `feat:` -> minor-equivalent, `fix:` -> patch under the pre-1.0 config in `release-please-config.json`).
+1. Land a conventional-commit change on `main` that touches `packages/axi-sdk-js/**`; under the current pre-1.0 config in `release-please-config.json`, `feat:` and `fix:` commits both bump patch versions (for example `0.1.7` -> `0.1.8`), while breaking changes bump minor versions.
 2. The `axi-sdk-js-release-please` workflow opens or updates a release PR titled `chore(main): release axi-sdk-js <version>`.
    That PR is the only place the version in `packages/axi-sdk-js/package.json`, `packages/axi-sdk-js/CHANGELOG.md`, and `.release-please-manifest.json` may change.
    Never hand-edit those files; the `Guard generated files` check fails any PR that does.
