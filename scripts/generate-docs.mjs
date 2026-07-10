@@ -24,6 +24,12 @@ const principles = parse(readFileSync(join(root, "principles.yaml"), "utf8"));
 const mdInline = (text) => text;
 const safeUrlProtocols = new Set(["http:", "https:"]);
 
+export function markdownTableCell(value) {
+  return value
+    .replace(/\s*\r?\n\s*/g, " ")
+    .replace(/(^|[^\\])((?:\\\\)*)\|/g, "$1$2\\|");
+}
+
 function safeUrl(value) {
   if (typeof value !== "string") {
     throw new Error("Link URLs must be strings");
@@ -137,14 +143,15 @@ export function htmlInline(text) {
 
 function mdPrinciplesTable() {
   const rows = principles.map(
-    (p) => `| ${p.number} | **${p.title}** | ${mdInline(p.summary)} |`,
+    (p) =>
+      `| ${p.number} | **${markdownTableCell(p.title)}** | ${markdownTableCell(mdInline(p.summary))} |`,
   );
   return ["| # | Principle | Summary |", "| --- | --- | --- |", ...rows].join(
     "\n",
   );
 }
 
-function mdCatalogTable(entries, withAuthor) {
+export function mdCatalogTable(entries, withAuthor) {
   const header = withAuthor
     ? ["| AXI | Author | Domain | What it does |", "| --- | --- | --- | --- |"]
     : ["| AXI | Domain | What it does |", "| --- | --- | --- |"];
@@ -152,7 +159,7 @@ function mdCatalogTable(entries, withAuthor) {
     const cells = [`[\`${e.name}\`](${safeUrl(e.url)})`];
     if (withAuthor) cells.push(e.author);
     cells.push(e.domain, mdInline(e.description));
-    return `| ${cells.join(" | ")} |`;
+    return `| ${cells.map(markdownTableCell).join(" | ")} |`;
   });
   return [...header, ...rows].join("\n");
 }

@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { htmlCatalogRows, htmlInline } from "./generate-docs.mjs";
+import {
+  htmlCatalogRows,
+  htmlInline,
+  markdownTableCell,
+  mdCatalogTable,
+} from "./generate-docs.mjs";
 
 test("catalog HTML escapes text and attribute values", () => {
   const html = htmlCatalogRows(
@@ -57,4 +62,26 @@ test("catalog HTML supports Markdown link destinations with parentheses", () => 
     htmlInline("See [escaped](https://example.com/a\\(b\\))."),
     'See <a href="https://example.com/a(b)">escaped</a>.',
   );
+});
+
+test("catalog Markdown tables preserve pipes and multiline cells", () => {
+  const markdown = mdCatalogTable(
+    [
+      {
+        name: "example|axi",
+        url: "https://example.com/a|b",
+        author: "Example|Author",
+        domain: "Example\nDomain",
+        description:
+          "Uses `a|b`, [a|b](https://example.com/a|b), and an escaped \\|.",
+      },
+    ],
+    true,
+  );
+
+  assert.match(
+    markdown,
+    /^\| \[`example\\\|axi`\]\(https:\/\/example\.com\/a\\\|b\) \| Example\\\|Author \| Example Domain \| Uses `a\\\|b`, \[a\\\|b\]\(https:\/\/example\.com\/a\\\|b\), and an escaped \\|\. \|$/m,
+  );
+  assert.equal(markdownTableCell("already escaped \\|"), "already escaped \\|");
 });
