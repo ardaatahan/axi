@@ -66,13 +66,16 @@ Use `gh-axi` for GitHub and `chrome-devtools-axi` for browser automation.
 
 ## The 10 Principles
 
-These principles define what makes a CLI tool "an AXI":
+These principles define what makes a CLI tool "an AXI".
+The table below is generated from [`principles.yaml`](principles.yaml); the full specification of each principle lives in the [AXI skill](.agents/skills/axi/SKILL.md).
+
+<!-- generated:principles:start -->
 
 | #   | Principle                          | Summary                                                                                     |
 | --- | ---------------------------------- | ------------------------------------------------------------------------------------------- |
 | 1   | **Token-efficient output**         | Use [TOON](https://toonformat.dev/) format for ~40% token savings over JSON                 |
-| 2   | **Minimal default schemas**        | 3–4 fields per list item, not 10                                                            |
-| 3   | **Content truncation**             | Truncate large text with size hints and `--full` escape hatch                               |
+| 2   | **Minimal default schemas**        | 3–4 fields per list item, not 10+                                                           |
+| 3   | **Content truncation**             | Truncate large text with size hints and a `--full` escape hatch                             |
 | 4   | **Pre-computed aggregates**        | Include aggregated counts and statuses that eliminate round trips                           |
 | 5   | **Definitive empty states**        | Explicit "0 results" rather than ambiguous empty output                                     |
 | 6   | **Structured errors & exit codes** | Idempotent mutations, structured errors, no interactive prompts, fail loud on unknown flags |
@@ -81,11 +84,17 @@ These principles define what makes a CLI tool "an AXI":
 | 9   | **Contextual disclosure**          | Include next-step suggestions after each output                                             |
 | 10  | **Consistent way to get help**     | Concise per-subcommand reference when agents need it                                        |
 
+<!-- generated:principles:end -->
+
 ## AXI Catalog
+
+The catalog tables below are generated from [`catalog.yaml`](catalog.yaml) - see [CONTRIBUTING.md](CONTRIBUTING.md) to add your AXI.
 
 ### Official
 
 Reference implementations maintained by the AXI project, validating the principles across different domains:
+
+<!-- generated:catalog-official:start -->
 
 | AXI                                                                         | Domain             | What it does                                                                                                                      |
 | --------------------------------------------------------------------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -94,9 +103,13 @@ Reference implementations maintained by the AXI project, validating the principl
 | [`lavish-axi`](https://github.com/kunchenguid/lavish-axi)                   | Human review       | Turns agent-generated HTML artifacts into collaborative review surfaces - annotate, comment, and send feedback back to the agent. |
 | [`quota-axi`](https://github.com/kunchenguid/quota-axi)                     | Quota / usage      | Reports local Claude, Codex, Cursor, Copilot, and Grok quota/usage windows for routing-aware agents - data-only and local-first.  |
 
+<!-- generated:catalog-official:end -->
+
 ### Community
 
 AXIs built and maintained by the community:
+
+<!-- generated:catalog-community:start -->
 
 | AXI                                                                                                | Author             | Domain           | What it does                                                                                                                                                 |
 | -------------------------------------------------------------------------------------------------- | ------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -115,6 +128,8 @@ AXIs built and maintained by the community:
 | [`aws-axi`](https://github.com/thatdudealso/aws-axi)                                               | thatdudealso       | AWS              | Discover, plan, provision, deploy, and inspect AWS services for hosting web, backend, database, and AI workloads through safe token-efficient CLI workflows. |
 | [`docker-axi`](https://github.com/thatdudealso/docker-axi)                                         | thatdudealso       | Docker           | Discover, build, run, debug, publish, inspect, and clean up Docker apps through safe token-efficient CLI workflows.                                          |
 | [`pg-axi`](https://github.com/thatdudealso/pg-axi)                                                 | thatdudealso       | PostgreSQL       | Discover, create, inspect, query, back up, restore, and maintain PostgreSQL databases through safe token-efficient CLI workflows.                            |
+
+<!-- generated:catalog-community:end -->
 
 Built an AXI? Follow the [contributor workflow](CONTRIBUTING.md) to add it to this list.
 
