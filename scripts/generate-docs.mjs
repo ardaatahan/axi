@@ -60,19 +60,77 @@ function htmlText(text) {
     .replaceAll("—", "&mdash;");
 }
 
+function markdownLinkAt(text, start) {
+  if (text[start] !== "[") return;
+
+  let labelDepth = 1;
+  let labelEnd = start + 1;
+  while (labelEnd < text.length && labelDepth > 0) {
+    if (text[labelEnd] === "\\") {
+      labelEnd += 2;
+      continue;
+    }
+    if (text[labelEnd] === "[") labelDepth += 1;
+    if (text[labelEnd] === "]") labelDepth -= 1;
+    labelEnd += 1;
+  }
+  if (labelDepth !== 0 || text[labelEnd] !== "(") return;
+
+  const destinationStart = labelEnd + 1;
+  let destinationEnd = destinationStart;
+  let destinationDepth = 1;
+  while (destinationEnd < text.length && destinationDepth > 0) {
+    if (text[destinationEnd] === "\\") {
+      destinationEnd += 2;
+      continue;
+    }
+    if (text[destinationEnd] === "(") destinationDepth += 1;
+    if (text[destinationEnd] === ")") destinationDepth -= 1;
+    destinationEnd += 1;
+  }
+  if (destinationDepth !== 0 || destinationEnd === destinationStart + 1) {
+    return;
+  }
+
+  return {
+    end: destinationEnd,
+    label: text.slice(start + 1, labelEnd - 1),
+    destination: text
+      .slice(destinationStart, destinationEnd - 1)
+      .replace(/\\([()])/g, "$1"),
+  };
+}
+
 export function htmlInline(text) {
-  return text
-    .split(/(`[^`]+`|\[[^\]]+\]\([^)]+\))/g)
-    .map((part) => {
-      const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
-      if (link) {
-        return `<a href="${escapeHtmlAttribute(safeUrl(link[2]))}">${htmlInline(link[1])}</a>`;
+  let html = "";
+  let plainStart = 0;
+  let index = 0;
+
+  while (index < text.length) {
+    if (text[index] === "`") {
+      const codeEnd = text.indexOf("`", index + 1);
+      if (codeEnd > index + 1) {
+        html += htmlText(text.slice(plainStart, index));
+        html += `<code>${htmlText(text.slice(index + 1, codeEnd))}</code>`;
+        index = codeEnd + 1;
+        plainStart = index;
+        continue;
       }
-      const code = part.match(/^`([^`]+)`$/);
-      if (code) return `<code>${htmlText(code[1])}</code>`;
-      return htmlText(part);
-    })
-    .join("");
+    }
+
+    const link = markdownLinkAt(text, index);
+    if (link) {
+      html += htmlText(text.slice(plainStart, index));
+      html += `<a href="${escapeHtmlAttribute(safeUrl(link.destination))}">${htmlInline(link.label)}</a>`;
+      index = link.end;
+      plainStart = index;
+      continue;
+    }
+
+    index += 1;
+  }
+
+  return html + htmlText(text.slice(plainStart));
 }
 
 // --- region renderers ------------------------------------------------------

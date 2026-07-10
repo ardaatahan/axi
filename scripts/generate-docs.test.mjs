@@ -45,3 +45,16 @@ test("catalog HTML rejects unsafe link protocols", () => {
     /Unsupported link URL protocol: data:/,
   );
 });
+
+test("catalog HTML supports Markdown link destinations with parentheses", () => {
+  assert.equal(
+    htmlInline(
+      "See [Function](https://en.wikipedia.org/wiki/Function_(mathematics)).",
+    ),
+    'See <a href="https://en.wikipedia.org/wiki/Function_(mathematics)">Function</a>.',
+  );
+  assert.equal(
+    htmlInline("See [escaped](https://example.com/a\\(b\\))."),
+    'See <a href="https://example.com/a(b)">escaped</a>.',
+  );
+});
