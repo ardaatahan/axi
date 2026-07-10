@@ -9,7 +9,8 @@ on:
       - README.md
       - docs/index.html
       - .agents/skills/axi/SKILL.md
-      - scripts/generate-docs.mjs
+      - scripts/**
+      - .prettierrc
       - package.json
       - pnpm-lock.yaml
       - .github/workflows/docs-check.yml
@@ -21,7 +22,8 @@ on:
       - README.md
       - docs/index.html
       - .agents/skills/axi/SKILL.md
-      - scripts/generate-docs.mjs
+      - scripts/**
+      - .prettierrc
       - package.json
       - pnpm-lock.yaml
       - .github/workflows/docs-check.yml
@@ -40,4 +42,5 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+      - run: pnpm run docs:test
       - run: pnpm run docs:check

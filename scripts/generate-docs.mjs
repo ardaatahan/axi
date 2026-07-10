@@ -7,7 +7,7 @@
 //   node scripts/generate-docs.mjs --check  # exit 1 if committed files drift
 
 import { readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
 import prettier from "prettier";
@@ -22,17 +22,57 @@ const principles = parse(readFileSync(join(root, "principles.yaml"), "utf8"));
 // Source strings are markdown: `code` spans and [text](url) links.
 
 const mdInline = (text) => text;
+const safeUrlProtocols = new Set(["http:", "https:"]);
 
-function htmlInline(text) {
+function safeUrl(value) {
+  if (typeof value !== "string") {
+    throw new Error("Link URLs must be strings");
+  }
+  let url;
+  try {
+    url = new URL(value);
+  } catch {
+    throw new Error(`Invalid link URL: ${value}`);
+  }
+  if (!safeUrlProtocols.has(url.protocol)) {
+    throw new Error(`Unsupported link URL protocol: ${url.protocol}`);
+  }
+  return value;
+}
+
+function escapeHtmlText(text) {
   return text
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
+    .replaceAll(">", "&gt;");
+}
+
+function escapeHtmlAttribute(text) {
+  return escapeHtmlText(text)
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function htmlText(text) {
+  return escapeHtmlText(text)
     .replace(/"([^"]*)"/g, "&ldquo;$1&rdquo;")
-    .replace(/`([^`]+)`/g, "<code>$1</code>")
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
     .replaceAll("–", "&ndash;")
     .replaceAll("—", "&mdash;");
+}
+
+export function htmlInline(text) {
+  return text
+    .split(/(`[^`]+`|\[[^\]]+\]\([^)]+\))/g)
+    .map((part) => {
+      const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (link) {
+        return `<a href="${escapeHtmlAttribute(safeUrl(link[2]))}">${htmlInline(link[1])}</a>`;
+      }
+      const code = part.match(/^`([^`]+)`$/);
+      if (code) return `<code>${htmlText(code[1])}</code>`;
+      return htmlText(part);
+    })
+    .join("");
 }
 
 // --- region renderers ------------------------------------------------------
@@ -51,7 +91,7 @@ function mdCatalogTable(entries, withAuthor) {
     ? ["| AXI | Author | Domain | What it does |", "| --- | --- | --- | --- |"]
     : ["| AXI | Domain | What it does |", "| --- | --- | --- |"];
   const rows = entries.map((e) => {
-    const cells = [`[\`${e.name}\`](${e.url})`];
+    const cells = [`[\`${e.name}\`](${safeUrl(e.url)})`];
     if (withAuthor) cells.push(e.author);
     cells.push(e.domain, mdInline(e.description));
     return `| ${cells.join(" | ")} |`;
@@ -68,11 +108,11 @@ function htmlPrinciplesList() {
     .join("\n");
 }
 
-function htmlCatalogRows(entries, withAuthor) {
+export function htmlCatalogRows(entries, withAuthor) {
   return entries
     .map((e) => {
       const cells = [
-        `<td><a href="${e.url}"><code>${e.name}</code></a></td>`,
+        `<td><a href="${escapeHtmlAttribute(safeUrl(e.url))}"><code>${escapeHtmlText(e.name)}</code></a></td>`,
         ...(withAuthor ? [`<td>${htmlInline(e.author)}</td>`] : []),
         `<td>${htmlInline(e.domain)}</td>`,
         `<td>${htmlInline(e.description)}</td>`,
@@ -143,43 +183,54 @@ const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 // --- main -------------------------------------------------------------------
 
-const results = [
-  await renderFile("README.md", {
-    principles: mdPrinciplesTable(),
-    "catalog-official": mdCatalogTable(catalog.official, false),
-    "catalog-community": mdCatalogTable(catalog.community, true),
-  }),
-  await renderFile("docs/index.html", {
-    principles: htmlPrinciplesList(),
-    "catalog-official": htmlCatalogRows(catalog.official, false),
-    "catalog-community": htmlCatalogRows(catalog.community, true),
-  }),
-];
+async function main() {
+  const results = [
+    await renderFile("README.md", {
+      principles: mdPrinciplesTable(),
+      "catalog-official": mdCatalogTable(catalog.official, false),
+      "catalog-community": mdCatalogTable(catalog.community, true),
+    }),
+    await renderFile("docs/index.html", {
+      principles: htmlPrinciplesList(),
+      "catalog-official": htmlCatalogRows(catalog.official, false),
+      "catalog-community": htmlCatalogRows(catalog.community, true),
+    }),
+  ];
 
-const titleErrors = checkTitles(
-  results.find((r) => r.relPath === "docs/index.html").after,
-);
-if (titleErrors.length > 0) {
-  for (const e of titleErrors) console.error(`error: ${e}`);
-  process.exit(1);
-}
-
-const stale = results.filter((r) => r.before !== r.after);
-if (checkMode) {
-  if (stale.length > 0) {
-    for (const r of stale) {
-      console.error(
-        `error: ${r.relPath} is out of sync with catalog.yaml/principles.yaml`,
-      );
-    }
-    console.error("help: run `pnpm run docs:gen` and commit the result");
-    process.exit(1);
+  const titleErrors = checkTitles(
+    results.find((r) => r.relPath === "docs/index.html").after,
+  );
+  if (titleErrors.length > 0) {
+    for (const e of titleErrors) console.error(`error: ${e}`);
+    process.exitCode = 1;
+    return;
   }
-  console.log("docs:check ok — generated regions match their sources");
-} else {
+
+  const stale = results.filter((r) => r.before !== r.after);
+  if (checkMode) {
+    if (stale.length > 0) {
+      for (const r of stale) {
+        console.error(
+          `error: ${r.relPath} is out of sync with catalog.yaml/principles.yaml`,
+        );
+      }
+      console.error("help: run `pnpm run docs:gen` and commit the result");
+      process.exitCode = 1;
+      return;
+    }
+    console.log("docs:check ok — generated regions match their sources");
+    return;
+  }
   for (const r of stale) {
     writeFileSync(r.path, r.after);
     console.log(`wrote ${r.relPath}`);
   }
   if (stale.length === 0) console.log("generated regions already up to date");
+}
+
+if (
+  process.argv[1] &&
+  resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+) {
+  await main();
 }
