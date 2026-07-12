@@ -131,6 +131,7 @@ AXIs built and maintained by the community:
 | [`mongodb-axi`](https://github.com/thatdudealso/mongodb-axi)                                       | thatdudealso       | MongoDB          | Discover, create, inspect, query, export, import, maintain, and diagnose MongoDB databases through safe token-efficient CLI workflows.                       |
 | [`elasticsearch-axi`](https://github.com/thatdudealso/elasticsearch-axi)                           | thatdudealso       | Elasticsearch    | Discover, inspect, query, index, map, snapshot, restore, diagnose, and operate Elasticsearch clusters through safe token-efficient CLI workflows.            |
 | [`kubernetes-axi`](https://github.com/thatdudealso/kubernetes-axi)                                 | thatdudealso       | Kubernetes       | Discover, inspect, deploy, debug, scale, roll out, expose, and clean up Kubernetes workloads through safe token-efficient CLI workflows.                     |
+| [`redis-axi`](https://github.com/thatdudealso/redis-axi)                                           | thatdudealso       | Redis            | Discover, inspect, query, export, import, maintain, and diagnose Redis databases through safe token-efficient CLI workflows.                                 |
 
 <!-- generated:catalog-community:end -->
 
