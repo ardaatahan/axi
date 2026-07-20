@@ -14,6 +14,16 @@ Small, objective corrections that improve clarity without changing meaning or be
 
 Contributions adding real, verifiable AXIs to the community catalog are welcome.
 
+Every new package proposed for either catalog may receive a positive admission verdict only after independent review of the package itself.
+The reviewer must inspect the actual source at a pinned revision or release and, when a runnable release exists, execute that released package through representative success, error, and discovery paths.
+The observed interface and behavior must satisfy all applicable AXI principles, including agent-oriented ergonomics, structured and truthful outputs and errors, and discoverability.
+
+A PR description, contributor-provided transcript or pasted verification, generated catalog diff, package metadata, or existence check is insufficient evidence on its own.
+The verdict must identify the exact pinned source revision or release inspected and, when execution is required, the exact released package version and behavior exercised.
+It must distinguish direct observations from unverified claims and avoid attributing observations to a release or revision that was not inspected.
+If required source inspection or, when applicable, runnable-package execution cannot be completed, the verdict must remain inconclusive or request the missing evidence rather than recommend admission.
+Catalog review should verify AXI behavior without becoming an open-ended audit of unrelated package concerns.
+
 The official catalog is maintained directly by the project owner and is not open to contributed additions or edits.
 
 ## SDKs
