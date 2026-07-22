@@ -46,7 +46,7 @@ Evaluated across 425 runs (17 tasks × 5 conditions × 5 repeats) using Claude S
 
 Claude Sonnet 4.6 is the model the published runs used, not a limit of the
 harness. Both benchmarks take `--model`, which is passed straight through to
-the agent CLI, so any Claude model works — for example
+the agent CLI, so any Claude model works - for example
 `--model claude-opus-4-6`. Results for other models are simply not published
 here, and they may respond differently to output format.
 
@@ -142,6 +142,7 @@ AXIs built and maintained by the community:
 | [`redis-axi`](https://github.com/thatdudealso/redis-axi)                                           | thatdudealso       | Redis                 | Discover, inspect, query, export, import, maintain, and diagnose Redis databases through safe token-efficient CLI workflows.                                 |
 | [`celery-axi`](https://github.com/thatdudealso/celery-axi)                                         | thatdudealso       | Celery                | Discover, inspect, run, debug, monitor, schedule, control, and safely operate Celery task queues through token-efficient CLI workflows.                      |
 | [`cyber-mux`](https://github.com/cyberuni/cyber-mux)                                               | unional            | Terminal multiplexers | Open, send, read, focus, and close terminal panes across tmux, herdr, and WezTerm through one detection-driven contract with token-efficient output.         |
+| [`oracle-axi`](https://github.com/thatdudealso/oracle-axi)                                         | thatdudealso       | Oracle Database       | Discover, create, inspect, query, export, import, maintain, and diagnose Oracle databases through safe token-efficient CLI workflows.                        |
 
 <!-- generated:catalog-community:end -->
 
