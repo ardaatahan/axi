@@ -17,6 +17,13 @@ on:
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
       - .github/workflows/axi-sdk-js-ci.yml
+      # Negations must follow the positive patterns they narrow. release-please
+      # opens its release PR with GITHUB_TOKEN, which creates a pull_request run
+      # that can only sit in action_required. Excluding its output set means no
+      # run is ever created. Root package.json is deliberately not negated.
+      - "!packages/axi-sdk-js/CHANGELOG.md"
+      - "!packages/axi-sdk-js/package.json"
+      - "!packages/axi-sdk-js/package-lock.json"
 
 jobs:
   build-and-test:
