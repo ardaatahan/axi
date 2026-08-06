@@ -98,11 +98,15 @@ await runAxiCli({
 
 ## Reference
 
-`axi-sdk-js` is a library package. In normal use, `runAxiCli()` should be the main entry point.
+`axi-sdk-js` is a library package. In normal use, `runAxiCli()` is the main
+entry point. Executable entry points may import `tryFastPath()` from the
+dedicated `axi-sdk-js/fast-path` subpath before dynamically importing their
+full command graph.
 
-| API           | Description                                                                                                                                                                                    |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `runAxiCli()` | Shared runtime for command-first dispatch, bare `--help`/`--version` fast paths, the built-in `update` command, lazy context resolution, home header injection, TOON serialization, and errors |
+| API                                     | Description                                                                                                                                                                                  |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `runAxiCli()`                           | Shared runtime for command-first dispatch, bare `--help`/`--version` handling, the built-in `update` command, lazy context resolution, home header injection, TOON serialization, and errors |
+| `axi-sdk-js/fast-path`: `tryFastPath()` | Dependency-free subpath for handling a bare `-v`, `-V`, or `--version` before loading the full CLI graph; all other arguments fall through unchanged                                         |
 
 ### Advanced Exports
 
