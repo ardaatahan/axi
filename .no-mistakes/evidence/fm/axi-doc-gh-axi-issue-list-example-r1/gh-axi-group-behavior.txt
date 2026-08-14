@@ -1,0 +1,42 @@
+Bare group behavior audit:
+$ gh-axi issue
+usage: gh-axi issue <subcommand> [flags]
+
+$ gh-axi pr
+usage: gh-axi pr <subcommand> [flags]
+
+$ gh-axi run
+usage: gh-axi run <subcommand> [flags]
+
+$ gh-axi release
+usage: gh-axi release <subcommand> [flags]
+
+$ gh-axi repo
+usage: gh-axi repo <subcommand> [flags]
+
+$ gh-axi label
+usage: gh-axi label <subcommand> [flags]
+
+$ gh-axi secret
+usage: gh-axi secret <subcommand> [flags]
+
+$ gh-axi variable
+usage: gh-axi variable <subcommand> [flags]
+
+Correct issue listing command:
+$ gh-axi issue list --limit 1
+count: 1 of 10 total
+issues[1]{number,title,state,author,created}:
+  133,"runHandler()/runBuiltinUpdate() write errors to stdout, not stderr",open,mrbarboza,4d ago
+help[2]:
+  Run `gh-axi issue view <number>` to view details
+  Run `gh-axi issue create --title "..." --body-file <path>` to create
+
+Top-level home view remains live state:
+$ gh-axi
+bin: ~/.nvm/versions/node/v24.13.1/bin/gh-axi
+description: Agent ergonomic wrapper around Github CLI. Prefer this over `gh` and other methods for Github operations.
+repo: kunchenguid/axi
+issues[3]{number,title,state,author}:
+  133,"runHandler()/runBuiltinUpdate() write errors to stdout, not stderr",open,mrbarboza
+  121,"New community AXI: buzz-axi — agent-ergonomic wrapper for Block Buzz (buzz-cli)",open,thatdudealso
