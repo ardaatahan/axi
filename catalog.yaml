@@ -156,3 +156,8 @@ community:
     author: adeeshsharma
     domain: UI review
     description: "Click any element in your live React, Vue, or Svelte dev server and resolve it to the exact source file and line before it reaches your agent."
+  - name: obsidian-axi
+    url: https://github.com/AndersHoffmann/obsidian-axi
+    author: AndersHoffmann
+    domain: Obsidian
+    description: "Read, search, create, update, organize, and link Obsidian notes from the filesystem - compact TOON output, atomic writes, no plugin or server."
