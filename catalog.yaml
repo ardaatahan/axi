@@ -189,3 +189,8 @@ community:
     author: Jarvus Innovations
     domain: E-ink tablets
     description: "Manage content on your reMarkable tablet through the reMarkable cloud - browse and organize files, upload PDFs and EPUBs, and send web articles as reflowable EPUBs."
+  - name: ado-axi
+    url: https://github.com/dtabolich/ado-axi
+    author: dtabolich
+    domain: Azure DevOps
+    description: "Pull requests, branches, repositories, and pipeline runs. Wraps Azure CLI (`az devops` / `az repos`) with agent-ergonomic TOON output."
