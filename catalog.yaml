@@ -204,3 +204,8 @@ community:
     author: mstuart
     domain: Homebrew
     description: "Inspect Homebrew formulae, casks, and installed packages — versions, dependencies, outdated status, and install stats — with token-efficient TOON output; read-only, never mutates."
+  - name: pypi-axi
+    url: https://github.com/mstuart/pypi-axi
+    author: mstuart
+    domain: PyPI
+    description: "Inspect PyPI packages, versions, dependencies, and download stats with token-efficient TOON output — read-only, no auth required."
