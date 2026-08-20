@@ -219,3 +219,8 @@ community:
     author: escidmore
     domain: Forgejo
     description: "Pull request lifecycle, issues, and raw API access for self-hosted Forgejo - non-interactive, reconciling mutations, with token-efficient TOON output."
+  - name: mastra-axi
+    url: https://github.com/taltas/mastra-axi
+    author: taltas
+    domain: Mastra
+    description: "Discover and run a Mastra app's agents, tools, and workflows through agent-native shell commands with compact TOON output."
