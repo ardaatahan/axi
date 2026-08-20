@@ -184,3 +184,8 @@ community:
     author: Jarvus Innovations
     domain: Scheduling
     description: "The Calendly booking loop from the shell - see what's scheduled, mint single-use booking links, book directly, cancel, and manage event types, availability, and webhooks."
+  - name: remarkable-axi
+    url: https://github.com/JarvusInnovations/remarkable-axi
+    author: Jarvus Innovations
+    domain: E-ink tablets
+    description: "Manage content on your reMarkable tablet through the reMarkable cloud - browse and organize files, upload PDFs and EPUBs, and send web articles as reflowable EPUBs."
