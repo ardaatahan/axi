@@ -224,3 +224,8 @@ community:
     author: taltas
     domain: Mastra
     description: "Discover and run a Mastra app's agents, tools, and workflows through agent-native shell commands with compact TOON output."
+  - name: axi-axi
+    url: https://github.com/CodyEngel/axi-axi
+    author: CodyEngel
+    domain: AXI authoring
+    description: "Scaffold a compliant AXI, read the 10 principles in token-tuned slices, and run read-only compliance checks against a candidate CLI."
