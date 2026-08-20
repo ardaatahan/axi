@@ -209,3 +209,8 @@ community:
     author: mstuart
     domain: PyPI
     description: "Inspect PyPI packages, versions, dependencies, and download stats with token-efficient TOON output — read-only, no auth required."
+  - name: cargo-axi
+    url: https://github.com/AG9898/cargo-axi
+    author: AG9898
+    domain: Rust / Cargo
+    description: "Inspect Rust workspaces and run safe `check` or Clippy validation with compact TOON output and opt-in session context."
