@@ -199,3 +199,8 @@ community:
     author: laizhenyoong
     domain: Supabase
     description: "Inspect schemas, run SQL, and audit RLS, indexes, and logs across Supabase projects. Wraps the Supabase Management API."
+  - name: homebrew-axi
+    url: https://github.com/mstuart/homebrew-axi
+    author: mstuart
+    domain: Homebrew
+    description: "Inspect Homebrew formulae, casks, and installed packages — versions, dependencies, outdated status, and install stats — with token-efficient TOON output; read-only, never mutates."
