@@ -15,7 +15,6 @@ export default defineConfig(
     files: [
       "packages/axi-sdk-js/**/*.{js,cjs,mjs,ts,cts,mts}",
       "scripts/**/*.mjs",
-      "test/**/*.mjs",
     ],
     languageOptions: {
       globals: {
