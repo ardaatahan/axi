@@ -80,8 +80,10 @@ Because the release PR carries the version bump, a downstream `*-axi` tool only 
 - The AXI catalog and principle summaries are single-sourced from `catalog.yaml` and `principles.yaml`.
   `pnpm run docs:gen` rewrites the marked `generated:...` regions of README.md and docs/index.html; never hand-edit those regions.
   The `docs-check` workflow runs `pnpm run docs:check` and fails on drift, including when `.agents/skills/axi/SKILL.md` section headings stop matching the canonical principle titles.
-- The no-mistakes PR gate in `.github/workflows/no-mistakes-required.yml` is one self-contained inline `run:` script mirrored across sibling repos from `kunchenguid/gh-axi`; port that script byte-for-byte and keep this repo's own `on:`/`paths-ignore`/`if:` exemptions.
-  `pnpm run test:workflows` extracts that exact block and executes it against fixtures (`test/no-mistakes-gate.test.mjs`, node:test), and the `no-mistakes-gate-test` workflow runs it in CI.
+- The no-mistakes PR gate in `.github/workflows/no-mistakes-required.yml` is a thin caller of the shared `kunchenguid/no-mistakes/.github/actions/require-no-mistakes` composite action, pinned to an immutable commit SHA and never `@main`.
+  Enforcement logic and its tests live upstream in the no-mistakes repository; change enforcement there rather than copying it locally, and bump this repo's pin in a deliberate separate PR.
+  This repo still owns its `on:`/`paths-ignore`, `concurrency`, `permissions`, job name, and author-exemption `if:`.
+  The shared action's head binding means a PR whose body no-mistakes did not rewrite for the current head goes red: that is the attestation contract, not a flake - push through `git push no-mistakes` so the body is refreshed.
 
 ## Maintaining this file
 

@@ -252,7 +252,6 @@ describe("release-please CI exclusions", () => {
       "axi-sdk-js-ci.yml",
       "docs-check.yml",
       "guard-generated-files.yml",
-      "no-mistakes-gate-test.yml",
       "no-mistakes-required.yml",
     ]);
 
