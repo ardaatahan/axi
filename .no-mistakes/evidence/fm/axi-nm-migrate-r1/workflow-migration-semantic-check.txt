@@ -1,0 +1,5 @@
+PASS: GitHub workflow YAML parsed successfully.
+PR events: opened, edited, reopened
+Shared action: kunchenguid/no-mistakes/.github/actions/require-no-mistakes@32d396ac0f29135daf7fcb9964aba9d5f4e796d6
+Preserved exactly: branches, paths-ignore, permissions, concurrency, job name, runner, and job-level author exemptions.
+Removed dead local gate test workflow, gate test file, and test:workflows script.

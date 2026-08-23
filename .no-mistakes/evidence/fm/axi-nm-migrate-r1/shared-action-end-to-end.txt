@@ -1,0 +1,7 @@
+Immutable upstream verify.py blob: f01d74ebc70ba0260473a433013911f921b0c1e7
+compliant matching-head PR event: exit=0; outputs=[exempt=false, compliant=true]; Found no-mistakes signature in PR #42 body.
+unsigned PR event: exit=1; outputs=[exempt=false, compliant=false, exempt=false]; ::error::This PR was not raised through no-mistakes.
+stale-head PR event: exit=1; outputs=[exempt=false, compliant=false, exempt=false]; ::error::Pipeline attestation head_sha does not match the current PR head.
+incomplete test-step PR event: exit=1; outputs=[exempt=false, compliant=false, exempt=false]; ::error::Required no-mistakes pipeline steps are not completed: test (status=skipped).
+intended last-wins duplicate semantics: exit=0; outputs=[exempt=false, compliant=true]; Found no-mistakes signature in PR #42 body.
+PASS: pinned shared action consumed pull_request event payload and enforced the intended verdicts.
