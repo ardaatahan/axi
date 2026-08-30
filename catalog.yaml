@@ -296,3 +296,8 @@ community:
     author: Holaxis
     domain: Agent knowledge infrastructure
     description: "Turns what agents know into durable, domain-shaped infrastructure through local OKF bundles with declared schemas, exact queries, conflict-safe writes, and portable Views."
+  - name: figma-axi
+    url: https://github.com/ardaatahan/figma-axi
+    author: ardaatahan
+    domain: Design / Figma
+    description: "Inspect Figma files, export nodes to PNG/SVG/PDF, and read styles, components, and comments - summarizes huge files instead of dumping raw JSON."
