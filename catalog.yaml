@@ -316,6 +316,21 @@ community:
     author: simkimsia
     domain: Netlify
     description: "List sites and inspect the linked site's status and the logged-in account. Wraps the Netlify CLI with agent-ergonomic TOON output and structured errors."
+  # Admission review (independent source review per VISION.md): inspected
+  # ardaatahan/vercel-axi at commit
+  # 81c88e3582c3018fca8fcc1c4db40c993ece6f18 (no tagged release exists).
+  # Direct source observations: src/commands/vercel.ts gates production
+  # deploys, promote/rollback, domain add/remove, dns add/remove, and env
+  # add/remove behind requireConfirm(), which throws UsageError absent
+  # --confirm; src/output/errors.ts maps UsageError to exit 2 and AxiError
+  # to exit 1 on the documented 0/1/2 taxonomy; src/vercel/process.ts wraps
+  # the official `vercel` binary via spawnSync, converts a missing binary
+  # or non-zero exit into a structured AxiError, and detects auth failures
+  # to point at `vercel login`/VERCEL_TOKEN; env list redacts value/secret/
+  # decryptedValue fields by default (vercel.ts redact()); src/index.ts
+  # registers only these gated commands, with no ungated destructive path.
+  # Verdict: the source-defined interface and behavior at that revision
+  # satisfy the applicable AXI principles; admitted.
   - name: vercel-axi
     url: https://github.com/ardaatahan/vercel-axi
     author: ardaatahan
