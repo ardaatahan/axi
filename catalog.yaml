@@ -301,6 +301,11 @@ community:
     author: ardaatahan
     domain: Design / Figma
     description: "Inspect Figma files, export nodes to PNG/SVG/PDF, and read styles, components, and comments - summarizes huge files instead of dumping raw JSON."
+  - name: vercel-axi
+    url: https://github.com/ardaatahan/vercel-axi
+    author: ardaatahan
+    domain: Deployment / Vercel
+    description: "Deploy and inspect Vercel deployments, projects, domains, DNS, environment variables, and teams through the official Vercel CLI, with explicit confirmation gates for production and infrastructure changes."
   - name: trello-axi
     url: https://github.com/enzodevs/trello-axi
     author: enzodevs
