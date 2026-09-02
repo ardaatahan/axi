@@ -341,3 +341,24 @@ community:
     author: simkimsia
     domain: Cloudflare
     description: "Inspect the current Worker's deployments, Pages projects, KV namespaces, and the logged-in account. Wraps the Cloudflare CLI (wrangler) with agent-ergonomic TOON output and structured errors."
+  - name: coolify-axi
+    url: https://github.com/radityasurya/coolify-axi
+    author: radityasurya
+    domain: Coolify
+    description: "Apps, databases, services, and deployments on self-hosted or cloud Coolify - name-based addressing, redacted secrets, and TOON output over the official coolify CLI."
+    admission:
+      status: exception
+      reviewed_revision: 513e9bb2d9addf35135c9fcdd8d7f57ce0de4a43
+      reviewed_components:
+        - bin/coolify-axi.js
+        - src/cli.js
+        - src/args.js
+        - src/coolify.js
+        - src/commands/app.js
+        - src/commands/db.js
+      source_observations:
+        - "src/cli.js passes a `home` handler to runAxiCli that fetches `resource list` and returns counts, a state rollup, and per-resource state, so a no-argument run emits live data rather than the static TOON help in TOP_HELP."
+        - "src/args.js parses each subcommand with node:util parseArgs in strict mode and converts ERR_PARSE_ARGS_UNKNOWN_OPTION into an AxiError with code VALIDATION_ERROR whose suggestion names that subcommand's valid flags."
+        - "src/coolify.js runs the `coolify` binary through execFile and translates failures into AxiError codes MISSING_DEPENDENCY (ENOENT), AUTH_ERROR, NOT_FOUND, and COOLIFY_ERROR after dropping the wrapped CLI's update banner from stderr; redact()/redactValue() replace secret-named fields and the password segment matched by URL_CREDENTIALS in connection URLs unless --reveal is passed; resolveResource() raises VALIDATION_ERROR listing candidate uuids when a name matches more than one resource."
+        - "src/commands/app.js projects `app get` through the DETAIL_FIELDS allow-list, truncates `app logs` to the last LOG_LIMIT (4000) characters with a size hint and a --full escape hatch, and returns `unchanged: true` without calling the wrapped CLI when start or stop targets a resource already in that state."
+      exception: "`db get <name|uuid>` in src/commands/db.js returns a normal result payload reading `no database named <name>` for a lookup miss, so the process exits 0; the equivalent miss for applications, services, and servers goes through resolveResource() in src/coolify.js and raises a NOT_FOUND AxiError."
