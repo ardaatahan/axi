@@ -1,5 +1,9 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { parse } from "yaml";
 
 import {
   htmlCatalogRows,
@@ -7,6 +11,8 @@ import {
   markdownTableCell,
   mdCatalogTable,
 } from "./generate-docs.mjs";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 test("catalog HTML escapes text and attribute values", () => {
   const html = htmlCatalogRows(
@@ -84,4 +90,39 @@ test("catalog Markdown tables preserve pipes and multiline cells", () => {
     /^\| \[`example\\\|axi`\]\(https:\/\/example\.com\/a\\\|b\) \| Example\\\|Author \| Example Domain \| Uses `a\\\|b`, \[a\\\|b\]\(https:\/\/example\.com\/a\\\|b\), and an escaped \\|\. \|$/m,
   );
   assert.equal(markdownTableCell("already escaped \\|"), "already escaped \\|");
+});
+
+test("community catalog lands porkbun-axi with registration/destructive confirm wording", () => {
+  const catalog = parse(readFileSync(join(root, "catalog.yaml"), "utf8"));
+  const porkbun = catalog.community.find((entry) => entry.name === "porkbun-axi");
+  assert.ok(porkbun, "porkbun-axi must be present in catalog.community");
+  assert.equal(porkbun.author, "ardaatahan");
+  assert.equal(porkbun.domain, "Domains / Porkbun");
+  assert.equal(porkbun.url, "https://github.com/ardaatahan/porkbun-axi");
+  assert.match(
+    porkbun.description,
+    /confirmation gates for registrations and destructive updates\/deletes/,
+  );
+  assert.doesNotMatch(porkbun.description, /other writes/);
+
+  const markdown = mdCatalogTable([porkbun], true);
+  assert.match(
+    markdown,
+    /\[`porkbun-axi`\]\(https:\/\/github\.com\/ardaatahan\/porkbun-axi\)/,
+  );
+  assert.match(
+    markdown,
+    /confirmation gates for registrations and destructive updates\/deletes/,
+  );
+
+  const html = htmlCatalogRows([porkbun], true);
+  assert.match(
+    html,
+    /href="https:\/\/github\.com\/ardaatahan\/porkbun-axi"/,
+  );
+  assert.match(html, /<code>porkbun-axi<\/code>/);
+  assert.match(
+    html,
+    /confirmation gates for registrations and destructive updates\/deletes/,
+  );
 });
