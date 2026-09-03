@@ -94,7 +94,9 @@ test("catalog Markdown tables preserve pipes and multiline cells", () => {
 
 test("community catalog lands porkbun-axi with coolify-style admission exception", () => {
   const catalog = parse(readFileSync(join(root, "catalog.yaml"), "utf8"));
-  const porkbun = catalog.community.find((entry) => entry.name === "porkbun-axi");
+  const porkbun = catalog.community.find(
+    (entry) => entry.name === "porkbun-axi",
+  );
   assert.ok(porkbun, "porkbun-axi must be present in catalog.community");
   assert.equal(porkbun.author, "ardaatahan");
   assert.equal(porkbun.domain, "Domains / Porkbun");
@@ -120,9 +122,6 @@ test("community catalog lands porkbun-axi with coolify-style admission exception
   );
 
   const html = htmlCatalogRows([porkbun], true);
-  assert.match(
-    html,
-    /href="https:\/\/github\.com\/ardaatahan\/porkbun-axi"/,
-  );
+  assert.match(html, /href="https:\/\/github\.com\/ardaatahan\/porkbun-axi"/);
   assert.match(html, /<code>porkbun-axi<\/code>/);
 });
