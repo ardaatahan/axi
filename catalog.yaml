@@ -362,3 +362,8 @@ community:
         - "src/coolify.js runs the `coolify` binary through execFile and translates failures into AxiError codes MISSING_DEPENDENCY (ENOENT), AUTH_ERROR, NOT_FOUND, and COOLIFY_ERROR after dropping the wrapped CLI's update banner from stderr; redact()/redactValue() replace secret-named fields and the password segment matched by URL_CREDENTIALS in connection URLs unless --reveal is passed; resolveResource() raises VALIDATION_ERROR listing candidate uuids when a name matches more than one resource."
         - "src/commands/app.js projects `app get` through the DETAIL_FIELDS allow-list, truncates `app logs` to the last LOG_LIMIT (4000) characters with a size hint and a --full escape hatch, and returns `unchanged: true` without calling the wrapped CLI when start or stop targets a resource already in that state."
       exception: "`db get <name|uuid>` in src/commands/db.js returns a normal result payload reading `no database named <name>` for a lookup miss, so the process exits 0; the equivalent miss for applications, services, and servers goes through resolveResource() in src/coolify.js and raises a NOT_FOUND AxiError."
+  - name: porkbun-axi
+    url: https://github.com/ardaatahan/porkbun-axi
+    author: ardaatahan
+    domain: Domains / Porkbun
+    description: "Manage Porkbun domains, DNS records, SSL certificates, URL forwarding, nameservers, and glue records through the Porkbun API, with compact TOON output and explicit confirmation gates for registrations and other writes."
