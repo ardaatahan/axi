@@ -367,11 +367,11 @@ community:
   # 394fb206ea58c6d0aaa33a0f24bd6f70f84f206e (no tagged release exists).
   # Direct source observations: src/commands/porkbun.ts defines gate()
   # which prints the change then throws UsageError unless --confirm is
-  # set; domains register, dns update/delete, forwarding delete,
-  # nameservers set, and glue update/delete call gate(), dns update
-  # refuses to run without --name, and domains register preflights
-  # checkDomain then submits cost in cents with agreeToTerms only after
-  # --confirm; src/output/errors.ts maps UsageError to exit 2 and
+  # set; dns update/delete, forwarding delete, nameservers set, and
+  # glue update/delete call gate(); domains register uses its own
+  # --confirm check (not gate()), preflights checkDomain, then submits
+  # cost in cents with agreeToTerms only after --confirm; dns update
+  # refuses to run without --name; src/output/errors.ts maps UsageError to exit 2 and
   # AxiError to exit 1 on the documented 0/1/2 taxonomy;
   # src/api.ts reads PORKBUN_API_KEY and PORKBUN_SECRET_KEY from the
   # environment into X-API-Key / X-Secret-API-Key headers (never the
@@ -387,4 +387,4 @@ community:
     url: https://github.com/ardaatahan/porkbun-axi
     author: ardaatahan
     domain: Domains / Porkbun
-    description: "Manage Porkbun domains, DNS records, SSL certificates, URL forwarding, nameservers, and glue records through the Porkbun API, with compact TOON output and explicit confirmation gates for registrations and other writes."
+    description: "Manage Porkbun domains, DNS records, SSL certificates, URL forwarding, nameservers, and glue records through the Porkbun API, with compact TOON output and explicit confirmation gates for registrations and destructive updates/deletes."
