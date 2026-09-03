@@ -362,3 +362,22 @@ community:
         - "src/coolify.js runs the `coolify` binary through execFile and translates failures into AxiError codes MISSING_DEPENDENCY (ENOENT), AUTH_ERROR, NOT_FOUND, and COOLIFY_ERROR after dropping the wrapped CLI's update banner from stderr; redact()/redactValue() replace secret-named fields and the password segment matched by URL_CREDENTIALS in connection URLs unless --reveal is passed; resolveResource() raises VALIDATION_ERROR listing candidate uuids when a name matches more than one resource."
         - "src/commands/app.js projects `app get` through the DETAIL_FIELDS allow-list, truncates `app logs` to the last LOG_LIMIT (4000) characters with a size hint and a --full escape hatch, and returns `unchanged: true` without calling the wrapped CLI when start or stop targets a resource already in that state."
       exception: "`db get <name|uuid>` in src/commands/db.js returns a normal result payload reading `no database named <name>` for a lookup miss, so the process exits 0; the equivalent miss for applications, services, and servers goes through resolveResource() in src/coolify.js and raises a NOT_FOUND AxiError."
+  - name: porkbun-axi
+    url: https://github.com/ardaatahan/porkbun-axi
+    author: ardaatahan
+    domain: Domains / Porkbun
+    description: "Manage Porkbun domains, DNS records, SSL certificates, URL forwarding, nameservers, and glue records through the Porkbun API, with compact TOON output and explicit confirmation gates for registrations and destructive updates/deletes."
+    admission:
+      status: exception
+      reviewed_revision: 394fb206ea58c6d0aaa33a0f24bd6f70f84f206e
+      reviewed_components:
+        - src/commands/porkbun.ts
+        - src/output/errors.ts
+        - src/api.ts
+        - src/cli/args.ts
+        - src/index.ts
+      source_observations:
+        - "src/commands/porkbun.ts defines gate() which prints the change then throws UsageError unless --confirm is set; dns update/delete, forwarding delete, nameservers set, and glue update/delete call gate(); domains register uses its own --confirm check (not gate()), preflights checkDomain, then submits cost in cents with agreeToTerms only after --confirm; dns update refuses to run without --name."
+        - "src/output/errors.ts maps UsageError to exit 2 and AxiError to exit 1 on the documented 0/1/2 taxonomy; src/cli/args.ts throws UsageError on unknown flags with the valid flag set for that command; src/index.ts registers only allCommands from porkbun.ts."
+        - "src/api.ts reads PORKBUN_API_KEY and PORKBUN_SECRET_KEY from the environment into X-API-Key / X-Secret-API-Key headers (never the request body) and attaches a fresh Idempotency-Key UUID on idempotent writes; src/commands/porkbun.ts ssl retrieve prints PEM component sizes by default and only emits the certificate material with --json."
+      exception: "`dns create`, `forwarding create`, and `glue create` in src/commands/porkbun.ts print a change line then POST the mutation; they do not take --confirm or call gate()."
