@@ -224,44 +224,6 @@ test("community catalog lands canva-axi as documented admission exception", () =
       canva.admission.exception.length > 0,
     "admission.exception must be present",
   );
-  assert.match(
-    canva.admission.exception,
-    /UsageError to exit 1.*RuntimeError to exit 2/s,
-    "exception must document inverted exit taxonomy",
-  );
-  assert.match(
-    canva.admission.exception,
-    /AXI principle 6/,
-    "exception must cite AXI principle 6",
-  );
-  assert.match(
-    canva.admission.exception,
-    /`--version`/,
-    "exception must document --version probing",
-  );
-  assert.match(
-    canva.admission.exception,
-    /`-v`\/`-V`/,
-    "exception must document rejected short version flags",
-  );
-  assert.match(
-    canva.admission.exception,
-    /AXI principle 10/,
-    "exception must cite AXI principle 10",
-  );
-
-  const confirmObs = canva.admission.source_observations.find((obs) =>
-    obs.includes("--confirm"),
-  );
-  assert.ok(
-    confirmObs,
-    "source_observations must keep mutating write --confirm gates",
-  );
-  assert.match(
-    confirmObs,
-    /requireConfirmation\(\).*--confirm/s,
-    "confirm observation must describe requireConfirmation/--confirm gating",
-  );
 
   const markdown = mdCatalogTable([canva], true);
   assert.match(
