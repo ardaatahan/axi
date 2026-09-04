@@ -431,4 +431,23 @@ community:
       source_observations:
         - "mem stores typed markdown memories with YAML frontmatter under objects/<type>, supports init, add, update, merge, dedup, search, show, list, review, status, sync, and stats, and emits compact structured output with explicit empty states and exit 0/1/2 errors."
         - "mem add refuses credential-like title or body content unless --force is supplied, while dedup is dry-run by default and search/list rank results by priority and freshness with --limit and --min-priority controls; sync bounds pull and push operations with a 30-second timeout."
-
+  - name: fal-axi
+    url: https://github.com/ardaatahan/fal-axi
+    author: ardaatahan
+    domain: Image / Video Generation
+    description: "Generate images and videos and poll fal.ai queue status/results through the official @fal-ai/client, with compact TOON output, FAL_KEY env-only auth, and --confirm gates on paid generates."
+    admission:
+      status: admitted
+      reviewed_revision: 532c85a4afcf13cb76b9d7f352fe947182a3ccb8
+      reviewed_components:
+        - src/commands/fal.ts
+        - src/api/fal.ts
+        - src/cli/args.ts
+        - src/cli/router.ts
+        - src/output/errors.ts
+        - src/index.ts
+        - bin/fal-axi.js
+      source_observations:
+        - "src/commands/fal.ts registers models list, image generate, video generate, job status, and job result; image/video generate call requireConfirmation() which throws UsageError unless --confirm is set before createApi().submit(), and reject empty/whitespace prompts locally."
+        - "src/api/fal.ts reads FAL_KEY from the environment only via requireFalKey(), wraps @fal-ai/client queue.submit/status/result, and validates endpoint IDs (rejecting empty/`.`/`..` segments) plus request IDs before any network call."
+        - "src/output/errors.ts maps UsageError to exit 1 and RuntimeError to exit 2; src/cli/args.ts supports a `--` end-of-options terminator; src/index.ts registers only allCommands from fal.ts plus home help."
