@@ -125,3 +125,79 @@ test("community catalog lands porkbun-axi with coolify-style admission exception
   assert.match(html, /href="https:\/\/github\.com\/ardaatahan\/porkbun-axi"/);
   assert.match(html, /<code>porkbun-axi<\/code>/);
 });
+
+test("community catalog lands fal-axi as documented admission exception", () => {
+  const catalog = parse(readFileSync(join(root, "catalog.yaml"), "utf8"));
+  const fal = catalog.community.find((entry) => entry.name === "fal-axi");
+  assert.ok(fal, "fal-axi must be present in catalog.community");
+  assert.equal(fal.author, "ardaatahan");
+  assert.equal(fal.domain, "Image / Video Generation");
+  assert.equal(fal.url, "https://github.com/ardaatahan/fal-axi");
+
+  assert.equal(fal.admission.status, "exception");
+  assert.equal(
+    fal.admission.reviewed_revision,
+    "532c85a4afcf13cb76b9d7f352fe947182a3ccb8",
+  );
+  assert.ok(
+    fal.admission.reviewed_components.includes("src/commands/home.ts"),
+    "reviewed_components must include home.ts for version probing",
+  );
+  assert.ok(
+    typeof fal.admission.exception === "string" &&
+      fal.admission.exception.length > 0,
+    "admission.exception must be present",
+  );
+  assert.match(
+    fal.admission.exception,
+    /UsageError to exit 1.*RuntimeError to exit 2/s,
+    "exception must document inverted exit taxonomy",
+  );
+  assert.match(
+    fal.admission.exception,
+    /AXI principle 6/,
+    "exception must cite AXI principle 6",
+  );
+  assert.match(
+    fal.admission.exception,
+    /`--version`/,
+    "exception must document --version probing",
+  );
+  assert.match(
+    fal.admission.exception,
+    /`-v`\/`-V`/,
+    "exception must document rejected short version flags",
+  );
+  assert.match(
+    fal.admission.exception,
+    /AXI principle 10/,
+    "exception must cite AXI principle 10",
+  );
+
+  const confirmObs = fal.admission.source_observations.find((obs) =>
+    obs.includes("--confirm"),
+  );
+  assert.ok(
+    confirmObs,
+    "source_observations must keep paid generate --confirm gates",
+  );
+  assert.match(
+    confirmObs,
+    /requireConfirmation\(\).*--confirm/s,
+    "confirm observation must describe requireConfirmation/--confirm gating",
+  );
+
+  const markdown = mdCatalogTable([fal], true);
+  assert.match(
+    markdown,
+    /\[`fal-axi`\]\(https:\/\/github\.com\/ardaatahan\/fal-axi\)/,
+  );
+  assert.match(markdown, /Image \/ Video Generation/);
+  assert.match(markdown, /--confirm gates on paid generates/);
+
+  const html = htmlCatalogRows([fal], true);
+  assert.match(html, /href="https:\/\/github\.com\/ardaatahan\/fal-axi"/);
+  assert.match(html, /<code>fal-axi<\/code>/);
+  assert.match(html, /Image \/ Video Generation/);
+  assert.match(html, /--confirm gates on paid generates/);
+});
